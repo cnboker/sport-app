@@ -1,7 +1,7 @@
-dist/
-deploy_versions/
-.temp/
-.rn_temp/
-node_modules/
-.DS_Store
-.swc
+frontend/dist/
+frontend/deploy_versions/
+frontend/.temp/
+frontend/.rn_temp/
+frontend/node_modules/
+frontend/.DS_Store
+frontend/.swc
