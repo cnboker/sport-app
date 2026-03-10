@@ -20,64 +20,81 @@ const DictionaryAdmin: React.FC = () => {
     setList(mockData);
   };
 
+
   const handleSave = () => {
     if (!currentItem.itemValue) {
-      Toast.show('内容不能为空');
+      // 修正：参数必须是对象
+      Toast.show('内容不能为空', {
+        type: 'warn',
+        duration: 2000
+      });
       return;
     }
-    // 这里执行保存逻辑...
-    Toast.show('保存成功');
+
+    // 执行保存逻辑...
+
+    Toast.show('保存成功', {
+      type: 'success'
+    });
+
     setVisible(false);
   };
-
   return (
     <View style={{ background: '#f7f8fa', minHeight: '100vh', paddingBottom: '20px' }}>
-      <CellGroup 
-        title="故障类型管理" 
-        extra={<Button size="small" type="primary" onClick={() => { setCurrentItem({}); setVisible(true); }}>新增</Button>}
+      <CellGroup
+        title={
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>故障类型管理</span>
+            <Button size="small" type="primary" onClick={() => { setCurrentItem({}); setVisible(true); }}>
+              新增
+            </Button>
+          </div>
+        }
       >
-        {list.map(item => (
-          <Cell
-            key={item.id}
-            title={item.itemValue}
-            description={`编码: ${item.itemKey}`}
-            extra={
-              <View style={{ display: 'flex', gap: '10px' }}>
-                <Button size="mini" fill="outline" type="primary" onClick={() => { setCurrentItem(item); setVisible(true); }}>编辑</Button>
-                {!item.isSystem && (
-                  <Button size="mini" fill="outline" type="danger" onClick={() => {
-                    setList(list.filter(i => i.id !== item.id));
-                  }}>删除</Button>
-                )}
-              </View>
-            }
-          />
-        ))}
-      </CellGroup>
+        {/* 你的 Cell 内容 */}
+     
+      {list.map(item => (
+        <Cell
+          key={item.id}
+          title={item.itemValue}
+          description={`编码: ${item.itemKey}`}
+          extra={
+            <View style={{ display: 'flex', gap: '10px' }}>
+              <Button size="mini" fill="outline" type="primary" onClick={() => { setCurrentItem(item); setVisible(true); }}>编辑</Button>
+              {!item.isSystem && (
+                <Button size="mini" fill="outline" type="danger" onClick={() => {
+                  setList(list.filter(i => i.id !== item.id));
+                }}>删除</Button>
+              )}
+            </View>
+          }
+        />
+      ))}
+    </CellGroup>
 
-      {/* NutUI 标准对话框 */}
-      <Dialog
-        title={currentItem.id ? "编辑项" : "新增项"}
-        visible={visible}
-        onConfirm={handleSave}
-        onCancel={() => setVisible(false)}
-      >
-        <View style={{ marginTop: '10px' }}>
-          <Input
-            label="名称"
-            placeholder="请输入字典项内容"
-            value={currentItem.itemValue}
-            onChange={(val) => setCurrentItem({ ...currentItem, itemValue: val })}
-          />
-          <Input
-            label="编码"
-            placeholder="请输入编码"
-            value={currentItem.itemKey}
-            onChange={(val) => setCurrentItem({ ...currentItem, itemKey: val })}
-          />
-        </View>
-      </Dialog>
+      {/* NutUI 标准对话框 */ }
+  <Dialog
+    title={currentItem.id ? "编辑项" : "新增项"}
+    visible={visible}
+    onConfirm={handleSave}
+    onCancel={() => setVisible(false)}
+  >
+    <View style={{ marginTop: '10px' }}>
+      <Input
+      
+        placeholder="请输入字典项内容"
+        value={currentItem.itemValue}
+        onChange={(val) => setCurrentItem({ ...currentItem, itemValue: val })}
+      />
+      <Input
+       
+        placeholder="请输入编码"
+        value={currentItem.itemKey}
+        onChange={(val) => setCurrentItem({ ...currentItem, itemKey: val })}
+      />
     </View>
+  </Dialog>
+    </View >
   );
 };
 
