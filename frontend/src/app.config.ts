@@ -3,6 +3,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/dict/index',
     'pages/dict/detail',
+    'pages/userManagement/index',
   ],
   window: {
     backgroundTextStyle: 'light',

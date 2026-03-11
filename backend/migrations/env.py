@@ -10,6 +10,13 @@ from sqlmodel import SQLModel  # <--- 添加这一行
 
 from app.models.dictionary import Dictionary
 from app.models.inspection_site import InspectionSite
+from app.models.venue import Venue
+from app.models.user import User
+from app.models.community import Community
+from app.models.inspection import Inspection
+from app.models.maintenance import Maintenance
+from app.models.street import Street
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

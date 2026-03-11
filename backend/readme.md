@@ -7,12 +7,14 @@ alembic revision --autogenerate -m "create_initial_tables"
 
 # 同步到数据库
 alembic upgrade head
+# 强制同步版本号（推荐）
+alembic stamp head
 ### 启动 FastAPI
 uvicorn main:app --reload
 
 ### sql cmd
 ```bash
-sudo docker exec -it 1da4714b7ed7 psql -U postgres
+sudo docker exec -it 1da4714b7ed7 psql -U postgres -d mysport
 # 查看所有数据库
 \l 
 # 查看当前数据库下的所有表
