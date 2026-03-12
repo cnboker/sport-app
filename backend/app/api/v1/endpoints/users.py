@@ -1,15 +1,32 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import select
+from typing import List
+
+from fastapi import APIRouter, Depends, Form, HTTPException, Response, status
+from sqlmodel import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.user import User, UserRole  # 确保路径正确
+from app.models.user import User  # 确保路径正确
 from app.api.deps import get_session
 # 导入之前定义的加密工具函数 (假设在 app.core.security 中)
 from app.core.security import hash_password, verify_password, create_access_token 
 
 router = APIRouter()
 
+# response_model 使用 List[User] 来返回用户列表
+@router.get("/", response_model=List[User])
+async def get_all_users(session: AsyncSession = Depends(get_session)):
+    """
+    获取所有用户信息
+    """
+    # 执行查询语句
+    statement = select(User)
+    result = await session.execute(statement)
+    
+    # 获取所有的 scalar 结果
+    users = result.scalars().all()
+    
+    return users
+
 # --- 1. 创建用户 (注册) ---
-@router.post("/", response_model=User, status_code=status.HTTP_201_CREATED)
+@router.post("/create", response_model=User, status_code=status.HTTP_201_CREATED)
 async def create_user(user: User, session: AsyncSession = Depends(get_session)):
     # 检查手机号是否已存在
     statement = select(User).where(User.phone == user.phone)
@@ -26,10 +43,20 @@ async def create_user(user: User, session: AsyncSession = Depends(get_session)):
     return user
 
 # --- 2. 登录逻辑 ---
-@router.post("/login")
-async def login(phone: str, password: str, session: AsyncSession = Depends(get_session)):
+@router.post("/token")
+async def login(
+    id: str = Form(...),           # 显式声明从表单获取
+    password: str = Form(...),     # 显式声明从表单获取
+    session: AsyncSession = Depends(get_session)
+):
+    print('login->id={id},password={password}')
     # 查找用户
-    statement = select(User).where(User.phone == phone)
+    statement = select(User).where(
+    or_(
+            User.full_name == id, 
+            User.phone == id
+        )
+    )
     result = await session.execute(statement)
     user = result.scalar_one_or_none()
 
@@ -63,7 +90,7 @@ async def login(phone: str, password: str, session: AsyncSession = Depends(get_s
 @router.patch("/{user_id}/role")
 async def assign_role(
     user_id: int, 
-    new_role: UserRole, 
+    new_role: str, 
     session: AsyncSession = Depends(get_session)
 ):
     """

@@ -22,6 +22,7 @@
       "node_modules/@types"
     ]
   },
+  "types": ["@tarojs/taro", "@tarojs/plugin-platform-weapp"],
   "include": ["./src", "./types"],
   "compileOnSave": false
 }

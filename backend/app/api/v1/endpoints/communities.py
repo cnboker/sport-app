@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlmodel import select, col
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
-from app.models.venue import Community, Street  # 确保路径正确
+from app.models.community import Community  # 确保路径正确
+from app.models.street import  Street  # 确保路径正确
 from app.api.deps import get_session
 
 router = APIRouter()

@@ -1,6 +1,5 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import users
-from backend.app.api.v1.endpoints import communities, streets, venues  # 导入刚才写的 users 模块
+from app.api.v1.endpoints import users, communities, streets, venues  # 导入刚才写的 users 模块
 
 api_router = APIRouter()
 

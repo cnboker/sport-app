@@ -1,0 +1,50 @@
+.login-page {
+  padding: 80rpx 40rpx;
+  min-height: 100vh;
+  background-color: #fff;
+
+  .login-header {
+    margin-bottom: 80rpx;
+    text-align: center;
+
+    .title {
+      font-size: 48rpx;
+      font-weight: bold;
+      color: #333;
+      letter-spacing: 4rpx;
+    }
+
+    .subtitle {
+      font-size: 24rpx;
+      color: #999;
+      margin-top: 10rpx;
+    }
+  }
+
+  // 调整 Form 样式
+  .nut-form-item {
+    margin-bottom: 20rpx;
+    background: #f7f8fa;
+    border-radius: 12rpx;
+    padding: 10rpx 20rpx;
+  }
+
+  .nut-input-native {
+    background: transparent !important;
+  }
+
+  // 角色按钮矩阵
+  .role-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20rpx;
+    justify-content: center;
+    margin-top: 40rpx;
+
+    .nut-button {
+      min-width: 180rpx;
+      border-color: #eee;
+      color: #666;
+    }
+  }
+}

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from '@tarojs/components';
 import {
     Table, Button, Input, Form, Dialog,
     Toast, Picker, Cell, Tag, Popup
 } from '@nutui/nutui-react-taro';
 import { Plus } from '@nutui/icons-react-taro';
+import AppNavBar from '../../components/AppNavBar/index'
+import { fetchAllUsers } from '../../../services/user';
+import Taro from '@tarojs/taro';
 
 // --- 类型定义 ---
 type UserRole = 'CITIZEN' | 'INSPECTOR' | 'MAINTAINER' | 'ADMIN' | 'CLIENT_ADMIN';
@@ -13,7 +16,7 @@ interface UserItem {
     id: number;
     full_name: string;
     phone: string;
-    role: UserRole;
+    role: string;
 }
 
 const roleOptions = [
@@ -35,12 +38,30 @@ const roleMap: Record<string, string> = {
 };
 
 const UserManagement: React.FC = () => {
-    const [userList, setUserList] = useState<UserItem[]>([]);
+    const [users, setUsers] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
     const [showPopup, setShowPopup] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
     const [roleText, setRoleText] = useState(''); // 用于界面展示选中的角色名
 
     const [form] = Form.useForm();
+
+    const loadUserList = async () => {
+        try {
+            setLoading(true)
+            const res = await fetchAllUsers()
+            setUsers(res.data)
+        } catch (err) {
+            Taro.showToast({ title: '获取列表失败', icon: 'error' })
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // 2. 页面挂载时自动执行
+    useEffect(() => {
+        loadUserList()
+    }, [])
 
     // --- 表格列定义 ---
     const columns = [
@@ -101,6 +122,7 @@ const UserManagement: React.FC = () => {
 
     return (
         <View className="user-management" style={{ padding: '12px', background: '#f7f8fa', minHeight: '100vh' }}>
+            <AppNavBar title="用户管理" />
             <Dialog
                 title="确认删除"
                 visible={deleteVisible}
@@ -120,7 +142,7 @@ const UserManagement: React.FC = () => {
 
             {/* 数据列表 - Taro端Table会自动处理横向滚动 */}
             <View style={{ background: '#fff', borderRadius: '8px' }}>
-                <Table columns={columns} data={userList} />
+                <Table columns={columns} data={users} />
             </View>
 
             {/* 创建用户 Popup */}

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlmodel import select, col
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
-from app.models.venue import Street  # 假设 Street 模型在 venue.py 中
+from app.models.street import Street  # 假设 Street 模型在 venue.py 中
 from app.api.deps import get_session
 
 router = APIRouter()

@@ -1,7 +1,35 @@
-.nutui-react-demo {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.home-container {
+  padding: 24rpx;
+  background: #f7f8fa;
+  min-height: 100vh;
+
+  .section-title {
+    padding: 32rpx 0;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .nut-grid-item__text {
+    margin-top: 16rpx;
+    font-size: 26rpx;
+  }
+
+  .scan-box {
+    margin-top: 60rpx;
+    background: linear-gradient(135deg, #fa2c19 0%, #fa6419 100%);
+    border-radius: 20rpx;
+    padding: 60rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10rpx 20rpx rgba(250, 44, 25, 0.2);
+
+    .scan-text {
+      color: #fff;
+      margin-top: 20rpx;
+      font-size: 34rpx;
+      font-weight: 500;
+    }
+  }
 }

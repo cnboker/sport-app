@@ -24,3 +24,6 @@ sudo docker exec -it 1da4714b7ed7 psql -U postgres -d mysport
 #在 psql 提示符下，输入 \d 加上表名：
 \d dictionary
 ```
+
+### hotload
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
